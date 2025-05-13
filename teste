@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Overlay</title>
+    <style>
+        /* Adicione o estilo CSS aqui */
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div class="player-status">
+            <p>Vida: <span id="player-health">100</span></p>
+            <p>Mana: <span id="player-mana">50</span></p>
+            <p>Classe de Armadura: <span id="player-ac">15</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Aqui você pode adicionar a lógica para atualizar os valores
+        function updateOverlay(health, mana, ac) {
+            document.getElementById('player-health').innerText = health;
+            document.getElementById('player-mana').innerText = mana;
+            document.getElementById('player-ac').innerText = ac;
+        }
+
+        // Exemplo de como atualizar
+        updateOverlay(80, 40, 18);  // Atualiza os valores para 80 de vida, 40 de mana e 18 de AC
+    </script>
+</body>
+</html>
