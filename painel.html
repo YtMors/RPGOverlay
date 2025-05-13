@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel do Mago</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #111;
+      color: white;
+    }
+
+    input {
+      width: 60px;
+      margin-right: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h2>Controle do Mago</h2>
+
+  <label>Vida:</label>
+  <input type="number" id="vida" min="0" max="12" value="12" />
+  <br />
+
+  <label>Mana:</label>
+  <input type="number" id="mana" min="0" max="9" value="9" />
+  <br />
+
+  <label>
+    <input type="checkbox" id="armadura" />
+    Armadura Mágica (+8 CA)
+  </label>
+  <br />
+
+  <button onclick="atualizar()">Atualizar</button>
+
+  <script>
+    function atualizar() {
+      const vida = document.getElementById("vida").value;
+      const mana = document.getElementById("mana").value;
+      const armadura = document.getElementById("armadura").checked;
+
+      localStorage.setItem("vida", vida);
+      localStorage.setItem("mana", mana);
+      localStorage.setItem("armadura", armadura);
+
+      alert("Overlay atualizado!");
+    }
+  </script>
+</body>
+</html>
