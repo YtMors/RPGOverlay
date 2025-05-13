@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Overlay Mago</title>
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .info {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+    }
+
+    .barra {
+      width: 300px;
+      height: 24px;
+      border-radius: 12px;
+      background: #444;
+      margin-bottom: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vida {
+      background: red;
+      height: 100%;
+      transition: width 0.2s;
+    }
+
+    .mana {
+      background: blue;
+      height: 100%;
+      transition: width 0.2s;
+    }
+
+    .texto-barra {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 24px;
+    }
+
+    .ca {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <div class="barra">
+      <div class="vida" id="barraVida"></div>
+      <div class="texto-barra" id="textoVida"></div>
+    </div>
+    <div class="barra">
+      <div class="mana" id="barraMana"></div>
+      <div class="texto-barra" id="textoMana"></div>
+    </div>
+    <div class="ca" id="caValor">CA: 10</div>
+  </div>
+
+  <script>
+    const vidaMax = 12;
+    const manaMax = 9;
+
+    function atualizar() {
+      const vida = parseInt(localStorage.getItem("vida")) || 12;
+      const mana = parseInt(localStorage.getItem("mana")) || 9;
+      const armadura = localStorage.getItem("armadura") === "true";
+
+      const vidaPerc = (vida / vidaMax) * 100;
+      const manaPerc = (mana / manaMax) * 100;
+
+      document.getElementById("barraVida").style.width = vidaPerc + "%";
+      document.getElementById("barraMana").style.width = manaPerc + "%";
+
+      document.getElementById("textoVida").textContent = `${vida} / ${vidaMax}`;
+      document.getElementById("textoMana").textContent = `${mana} / ${manaMax}`;
+
+      const ca = 10 + (armadura ? 8 : 0);
+      document.getElementById("caValor").textContent = `CA: ${ca}`;
+    }
+
+    setInterval(atualizar, 500);
+  </script>
+</body>
+</html>
