@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Dinâmico</title>
+    <style>
+        /* Estilos do painel */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .panel {
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat {
+            margin: 10px 0;
+        }
+        .bar {
+            width: 100%;
+            height: 20px;
+            background-color: #555;
+            border-radius: 10px;
+        }
+        .bar div {
+            height: 100%;
+            border-radius: 10px;
+        }
+        .btn {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel">
+    <h2>Painel de Atualização</h2>
+
+    <div class="stat">
+        <span>Vida:</span>
+        <div class="bar" id="health-bar">
+            <div id="health-bar-inner"></div>
+        </div>
+        <button class="btn" onclick="alterarVida(10)">Aumentar Vida (+10)</button>
+        <button class="btn" onclick="alterarVida(-10)">Diminuir Vida (-10)</button>
+    </div>
+
+    <div class="stat">
+        <span>Mana:</span>
+        <div class="bar" id="mana-bar">
+            <div id="mana-bar-inner"></div>
+        </div>
+        <button class="btn" onclick="alterarMana(10)">Aumentar Mana (+10)</button>
+        <button class="btn" onclick="alterarMana(-10)">Diminuir Mana (-10)</button>
+    </div>
+
+    <div class="stat">
+        <span>Classe de Armadura:</span>
+        <div id="armour-value">15</div>
+        <button class="btn" onclick="alterarArmour(1)">Aumentar Armadura (+1)</button>
+        <button class="btn" onclick="alterarArmour(-1)">Diminuir Armadura (-1)</button>
+    </div>
+</div>
+
+<script>
+    let vidaAtual = 100;
+    let vidaMaxima = 100;
+    let manaAtual = 50;
+    let manaMaxima = 50;
+    let classeArmadura = 15;
+
+    // Funções para alterar os valores
+    function alterarVida(valor) {
+        vidaAtual += valor;
+        if (vidaAtual > vidaMaxima) vidaAtual = vidaMaxima;
+        if (vidaAtual < 0) vidaAtual = 0;
+
+        const healthBar = document.getElementById("health-bar-inner");
+        healthBar.style.width = (vidaAtual / vidaMaxima) * 100 + "%";
+
+        // Armazenar no localStorage
+        localStorage.setItem('vidaAtual', vidaAtual);
+        document.getElementById("health-bar-inner").style.width = (vidaAtual / vidaMaxima) * 100 + "%";
+    }
+
+    function alterarMana(valor) {
+        manaAtual += valor;
+        if (manaAtual > manaMaxima) manaAtual = manaMaxima;
+        if (manaAtual < 0) manaAtual = 0;
+
+        const manaBar = document.getElementById("mana-bar-inner");
+        manaBar.style.width = (manaAtual / manaMaxima) * 100 + "%";
+
+        // Armazenar no localStorage
+        localStorage.setItem('manaAtual', manaAtual);
+    }
+
+    function alterarArmour(valor) {
+        classeArmadura += valor;
+        if (classeArmadura < 0) classeArmadura = 0;
+
+        // Armazenar no localStorage
+        localStorage.setItem('classeArmadura', classeArmadura);
+        document.getElementById("armour-value").innerText = classeArmadura;
+    }
+
+    // Iniciar com os valores salvos no localStorage
+    window.onload = function() {
+        if (localStorage.getItem('vidaAtual')) {
+            vidaAtual = parseInt(localStorage.getItem('vidaAtual'));
+            document.getElementById("health-bar-inner").style.width = (vidaAtual / vidaMaxima) * 100 + "%";
+        }
+        if (localStorage.getItem('manaAtual')) {
+            manaAtual = parseInt(localStorage.getItem('manaAtual'));
+            document.getElementById("mana-bar-inner").style.width = (manaAtual / manaMaxima) * 100 + "%";
+        }
+        if (localStorage.getItem('classeArmadura')) {
+            classeArmadura = parseInt(localStorage.getItem('classeArmadura'));
+            document.getElementById("armour-value").innerText = classeArmadura;
+        }
+    };
+</script>
+
+</body>
+</html>
