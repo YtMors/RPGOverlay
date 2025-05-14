@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Mago</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 300px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: none;
+    }
+
+    button, .toggle {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #0077cc;
+      color: white;
+    }
+
+    .toggle {
+      background-color: #444;
+    }
+
+    .toggle.active {
+      background-color: #00cc66;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Painel do Mago</h2>
+
+    <label for="vidaInput">Vida:</label>
+    <input type="number" id="vidaInput" min="0" max="12" value="12">
+
+    <label for="manaInput">Mana:</label>
+    <input type="number" id="manaInput" min="0" max="9" value="9">
+
+    <button onclick="atualizarValores()">Salvar</button>
+
+    <button class="toggle" id="toggleArmadura" onclick="alternarArmadura()">Ativar Armadura Mágica</button>
+  </div>
+
+  <script>
+    // Carregar valores salvos
+    document.getElementById("vidaInput").value = localStorage.getItem("vida") || 12;
+    document.getElementById("manaInput").value = localStorage.getItem("mana") || 9;
+
+    const toggleBtn = document.getElementById("toggleArmadura");
+
+    function atualizarValores() {
+      const vida = parseInt(document.getElementById("vidaInput").value);
+      const mana = parseInt(document.getElementById("manaInput").value);
+
+      localStorage.setItem("vida", vida);
+      localStorage.setItem("mana", mana);
+    }
+
+    function alternarArmadura() {
+      const atual = localStorage.getItem("armaduraMagica") === "true";
+      localStorage.setItem("armaduraMagica", (!atual).toString());
+      atualizarBotaoArmadura();
+    }
+
+    function atualizarBotaoArmadura() {
+      const ativo = localStorage.getItem("armaduraMagica") === "true";
+      toggleBtn.classList.toggle("active", ativo);
+      toggleBtn.textContent = ativo ? "Desativar Armadura Mágica" : "Ativar Armadura Mágica";
+    }
+
+    atualizarBotaoArmadura();
+  </script>
+</body>
+</html>
