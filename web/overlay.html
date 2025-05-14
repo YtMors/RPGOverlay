@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Overlay Mago</title>
+  <style>
+    body { margin: 0; padding: 0; background: transparent; font-family: Arial, sans-serif; }
+    .vida-mana {
+      position: fixed; bottom: 20px; right: 20px; width: 300px;
+    }
+    .barra {
+      height: 24px; border-radius: 12px; margin-bottom: 10px;
+      background-color: #444; overflow: hidden; box-shadow: 0 0 5px #000; position: relative;
+    }
+    .vida { background: red; height: 100%; width: 100%; transition: width 0.3s; }
+    .mana { background: #0099ff; height: 100%; width: 100%; transition: width 0.3s; }
+    .texto-barra {
+      color: white; text-align: center; position: absolute;
+      width: 100%; font-size: 16px; top: 0;
+    }
+    .ca-container {
+      position: fixed; bottom: 20px; left: 20px; color: white;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .ca-container img { width: 32px; height: 32px; }
+    .ca-container span { font-size: 20px; }
+  </style>
+</head>
+<body>
+  <div class="vida-mana">
+    <div class="barra">
+      <div class="vida" id="barraVida"></div>
+      <div class="texto-barra" id="textoVida">12 / 12</div>
+    </div>
+    <div class="barra">
+      <div class="mana" id="barraMana"></div>
+      <div class="texto-barra" id="textoMana">9 / 9</div>
+    </div>
+  </div>
+
+  <div class="ca-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/947/947476.png" alt="Armadura" />
+    <span id="caValor">CA: 10</span>
+  </div>
+
+  <script>
+    const vidaMax = 12;
+    const manaMax = 9;
+    async function buscarValores() {
+      try {
+        const res = await fetch("https://overlay-json.netlify.app/data.json", { cache: "no-store" });
+        const dados = await res.json();
+        return dados;
+      } catch (e) {
+        return { vida: vidaMax, mana: manaMax, armaduraMagica: false };
+      }
+    }
+
+    async function atualizarOverlay() {
+      const { vida, mana, armaduraMagica } = await buscarValores();
+      const caBase = 10;
+      const ca = caBase + (armaduraMagica ? 8 : 0);
+      document.getElementById("caValor").textContent = "CA: " + ca;
+      const vidaPorcentagem = Math.max(0, Math.min(vida / vidaMax, 1)) * 100;
+      const manaPorcentagem = Math.max(0, Math.min(mana / manaMax, 1)) * 100;
+      document.getElementById("barraVida").style.width = vidaPorcentagem + "%";
+      document.getElementById("barraMana").style.width = manaPorcentagem + "%";
+      document.getElementById("textoVida").textContent = `${vida} / ${vidaMax}`;
+      document.getElementById("textoMana").textContent = `${mana} / ${manaMax}`;
+    }
+
+    setInterval(atualizarOverlay, 1000);
+  </script>
+</body>
+</html>
